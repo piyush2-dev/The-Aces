@@ -1,0 +1,418 @@
+/* =========================================
+   1. DASHBOARD VARIABLES & LAYOUT
+   ========================================= */
+:root {
+    --dash-sidebar-width: 260px;
+    --dash-header-height: 70px;
+    --dash-bg: #F3F4F6;
+    --dash-surface: #FFFFFF;
+    --dash-border: #E5E7EB;
+    
+    /* Z-Index Layers */
+    --z-sidebar: 1000;
+    --z-header: 900;
+    --z-overlay: 950;
+}
+
+body {
+    background-color: var(--dash-bg);
+    overflow-x: hidden; /* Prevent horizontal scroll from sidebar animations */
+}
+
+.dashboard-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================
+   2. SIDEBAR NAVIGATION
+   ========================================= */
+.sidebar {
+    width: var(--dash-sidebar-width);
+    background-color: #111827; /* Dark Slate for Enterprise contrast */
+    color: #9CA3AF;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: var(--z-sidebar);
+    border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Sidebar Brand */
+.sidebar-brand {
+    height: var(--dash-header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary); /* Uses Global Variable */
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.sidebar-brand span { color: white; margin-left: 8px; }
+
+/* Navigation Links */
+.sidebar-nav {
+    padding: 1.5rem 1rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 4px;
+    color: #D1D5DB;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-item i {
+    width: 24px;
+    text-align: center;
+    margin-right: 12px;
+    font-size: 1.1rem;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.nav-item.active {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+/* User Profile in Sidebar (Bottom) */
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-earth);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   3. MAIN CONTENT AREA
+   ========================================= */
+.main-content {
+    flex: 1;
+    margin-left: var(--dash-sidebar-width);
+    width: calc(100% - var(--dash-sidebar-width));
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dashboard Header */
+.dash-header {
+    height: var(--dash-header-height);
+    background-color: var(--dash-surface);
+    border-bottom: 1px solid var(--dash-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: var(--z-header);
+}
+
+.header-toggle {
+    display: none; /* Hidden on desktop */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-text-main);
+    background: none;
+    border: none;
+}
+
+.header-title h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--color-text-main);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-icon-only {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--dash-border);
+    background: white;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.btn-icon-only:hover {
+    background-color: #F9FAFB;
+    color: var(--color-primary);
+}
+
+/* Page Content Padding */
+.content-wrapper {
+    padding: 2rem;
+}
+
+/* =========================================
+   4. STATISTIC CARDS
+   ========================================= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: var(--dash-surface);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--dash-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    transition: transform 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    line-height: 1.2;
+}
+
+.stat-label {
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Contextual Colors for Icons */
+.stat-icon.primary { background: #E8F5E9; color: var(--color-primary); }
+.stat-icon.warning { background: #FFF7ED; color: var(--color-warning); }
+.stat-icon.info    { background: #E0F2FE; color: var(--color-info); }
+
+/* =========================================
+   5. DATA TABLES
+   ========================================= */
+.table-card {
+    background: var(--dash-surface);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--dash-border);
+    overflow: hidden; /* Ensures rounded corners clip content */
+    margin-bottom: 2rem;
+}
+
+.table-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--dash-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--color-text-main);
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap; /* Prevents awkward wrapping */
+    min-width: 600px;    /* Ensures table doesn't crush on mobile */
+}
+
+.data-table th {
+    background-color: #F9FAFB;
+    color: var(--color-text-muted);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.data-table td {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--dash-border);
+    color: var(--color-text-main);
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover td {
+    background-color: #F9FAFB;
+}
+
+/* =========================================
+   6. BADGES & ACTION BUTTONS
+   ========================================= */
+/* Status Badges */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.status-active, .status-completed {
+    background-color: #DEF7EC;
+    color: #03543F;
+}
+
+.status-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-rejected, .status-cancelled {
+    background-color: #FDE8E8;
+    color: #9B1C1C;
+}
+
+/* Action Buttons (Table Context) */
+.action-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--dash-border);
+    background: white;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+    margin-right: 6px;
+}
+
+.action-btn:hover {
+    background-color: #F3F4F6;
+    border-color: #D1D5DB;
+}
+
+.action-btn.primary {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+}
+.action-btn.primary:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* =========================================
+   7. RESPONSIVE / MOBILE BEHAVIOR
+   ========================================= */
+@media (max-width: 992px) {
+    /* Hide Sidebar by default on tablet/mobile */
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+    }
+
+    /* When class 'active' is added via JS */
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    /* Adjust main content to take full width */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Show toggle button */
+    .header-toggle {
+        display: block;
+        margin-right: 1rem;
+    }
+    
+    .dash-header {
+        padding: 0 1rem;
+    }
+    
+    .content-wrapper {
+        padding: 1rem;
+    }
+    
+    /* Overlay for clicking off sidebar */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 950;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+    }
+    
+    .sidebar-overlay.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}

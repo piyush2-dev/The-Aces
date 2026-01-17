@@ -1,0 +1,164 @@
+/* =========================================
+   1. VARIABLES & EASING
+   ========================================= */
+:root {
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy/Lively */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);            /* Material Standard */
+    --duration-fast: 0.2s;
+    --duration-norm: 0.4s;
+    --duration-slow: 0.8s;
+}
+
+/* Enable smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Reduces motion for users who request it (Accessibility) */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =========================================
+   2. SCROLL REVEAL ANIMATIONS
+   ========================================= */
+/* Usage: Add class "reveal-on-scroll" to elements.
+   Requires the JS snippet below to toggle "is-visible".
+*/
+
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--duration-slow) var(--ease-smooth), 
+                transform var(--duration-slow) var(--ease-smooth);
+    will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for grids (up to 4 items) */
+.reveal-on-scroll:nth-child(1) { transition-delay: 0.1s; }
+.reveal-on-scroll:nth-child(2) { transition-delay: 0.2s; }
+.reveal-on-scroll:nth-child(3) { transition-delay: 0.3s; }
+.reveal-on-scroll:nth-child(4) { transition-delay: 0.4s; }
+
+/* =========================================
+   3. CARD & INTERACTIVE HOVERS
+   ========================================= */
+.hover-lift {
+    transition: transform var(--duration-norm) var(--ease-smooth),
+                box-shadow var(--duration-norm) var(--ease-smooth);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1), 
+                0 8px 10px -6px rgba(0, 0, 0, 0.1); /* Soft, elevated shadow */
+}
+
+.hover-scale {
+    transition: transform var(--duration-fast) var(--ease-smooth);
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+/* Table Row Highlight */
+tr {
+    transition: background-color var(--duration-fast) ease;
+}
+
+/* =========================================
+   4. BUTTON MICRO-INTERACTIONS
+   ========================================= */
+/* A. Press Effect (Scale Down) */
+.btn:active, 
+.card-clickable:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}
+
+/* B. CSS-Only Ripple Effect 
+   Requires button to have 'position: relative' and 'overflow: hidden'
+*/
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+    transform: translate3d(0, 0, 0); /* Fix for Safari masking */
+}
+
+.ripple-effect::after {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10, 10);
+    opacity: 0;
+    transition: transform .5s, opacity 1s;
+}
+
+.ripple-effect:active::after {
+    transform: scale(0, 0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* =========================================
+   5. LOADING INDICATORS
+   ========================================= */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(46, 125, 50, 0.3); /* Brand light green */
+    border-radius: 50%;
+    border-top-color: var(--color-primary);
+    animation: spin 0.8s linear infinite;
+}
+
+/* Pulse animation for 'Live' status dots */
+@keyframes pulse-green {
+    0% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(46, 125, 50, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(46, 125, 50, 0); }
+}
+
+.status-live-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    animation: pulse-green 2s infinite;
+}
+
+/* =========================================
+   6. PAGE TRANSITIONS
+   ========================================= */
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    animation: fadeInPage 0.6s var(--ease-smooth) forwards;
+}

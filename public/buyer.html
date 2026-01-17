@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Procurement | FarmoTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary: #2E7D32;         /* Brand Green */
+            --primary-dark: #1B5E20;
+            --accent-blue: #0288D1;     /* Enterprise Blue for Actions */
+            --bg-body: #F8FAFC;         /* Cool Gray Background */
+            --surface: #ffffff;
+            --border: #E2E8F0;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #0F172A; /* Darker Slate for Enterprise feel */
+            color: white;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: 0.3s;
+        }
+
+        .logo-area {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary); /* Green Accent */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            flex: 1;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #94A3B8;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255,255,255,0.05);
+            color: white;
+        }
+        .nav-item.active { border-left: 3px solid var(--primary); }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.85rem;
+            color: #94A3B8;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-wrapper {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - var(--sidebar-width));
+            transition: 0.3s;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            background: #F1F5F9;
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+            color: var(--text-muted);
+        }
+        .search-bar input { border: none; background: transparent; outline: none; width: 100%; }
+
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .icon-btn { position: relative; cursor: pointer; color: var(--text-muted); }
+        .badge-dot { position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: red; border-radius: 50%; }
+
+        /* Dashboard Content */
+        .content-area { padding: 2rem; }
+
+        .page-title { margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 700; }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .kpi-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .kpi-data h3 { font-size: 2rem; font-weight: 700; color: var(--text-main); line-height: 1; margin-bottom: 5px; }
+        .kpi-data p { color: var(--text-muted); font-size: 0.9rem; }
+        .trend { font-size: 0.8rem; margin-top: 10px; display: block; }
+        .trend.up { color: #16A34A; }
+
+        .kpi-icon {
+            width: 45px;
+            height: 45px;
+            background: #F1F5F9;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* Marketplace Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .data-table-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        
+        thead { background: #F8FAFC; border-bottom: 1px solid var(--border); }
+        
+        th {
+            text-align: left;
+            padding: 12px 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        td {
+            padding: 16px 20px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        tr:last-child td { border-bottom: none; }
+
+        .farmer-profile { display: flex; align-items: center; gap: 10px; }
+        .farmer-img { width: 32px; height: 32px; background: #ddd; border-radius: 50%; }
+
+        .btn-action {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-weight: 500;
+            border: none;
+            transition: 0.2s;
+        }
+        
+        .btn-view { background: #F1F5F9; color: var(--text-main); margin-right: 5px; }
+        .btn-view:hover { background: #E2E8F0; }
+        
+        .btn-accept { background: var(--accent-blue); color: white; }
+        .btn-accept:hover { background: #0277BD; }
+
+        /* Logistics Section */
+        .logistics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .logistics-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .delivery-item {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .map-placeholder {
+            width: 100px;
+            height: 80px;
+            background: #E2E8F0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .delivery-info { flex: 1; }
+        .delivery-meta { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; font-weight: 600; }
+        
+        .progress-bar {
+            height: 6px;
+            background: #F1F5F9;
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .progress-fill { height: 100%; background: var(--accent-blue); border-radius: 3px; }
+
+        /* Mobile Toggle */
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        @media(max-width: 1024px) {
+            .filters { display: none; /* Simplify for smaller screens */ }
+        }
+
+        @media(max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 260px; }
+            .sidebar.active { transform: translateX(0); }
+            .main-wrapper { margin-left: 0; width: 100%; }
+            .menu-toggle { display: block; margin-right: 15px; }
+            .search-bar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="logo-area">
+            <i class="fas fa-leaf"></i> FarmoTech <span style="font-size:0.7rem; color: #94A3B8; margin-top:5px; font-weight:400;">PRO</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="nav-item active"><i class="fas fa-chart-line" style="width:20px;"></i> Dashboard</a>
+            <a href="#" class="nav-item"><i class="fas fa-file-signature" style="width:20px;"></i> Contracts</a>
+            <a href="#" class="nav-item"><i class="fas fa-truck-fast" style="width:20px;"></i> Logistics</a>
+            <a href="#" class="nav-item"><i class="fas fa-wallet" style="width:20px;"></i> Payments</a>
+        </div>
+        <div class="sidebar-footer">
+            <p>Logged in as</p>
+            <p style="color: white; font-weight: 600;">Global Foods Inc.</p>
+        </div>
+    </nav>
+
+    <div class="main-wrapper">
+        
+        <header class="top-header">
+            <div style="display: flex; align-items: center;">
+                <div class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search contracts, farmers...">
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="icon-btn">
+                    <i class="far fa-bell"></i>
+                    <span class="badge-dot"></span>
+                </div>
+                <div class="icon-btn"><i class="far fa-user-circle" style="font-size: 1.5rem;"></i></div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <h1 class="page-title">Procurement Overview</h1>
+
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>142</h3>
+                        <p>Available Contracts</p>
+                        <span class="trend up"><i class="fas fa-arrow-up"></i> 12 new today</span>
+                    </div>
+                    <div class="kpi-icon"><i class="fas fa-box-open"></i></div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>28</h3>
+                        <p>Accepted Contracts</p>
+                        <span class="trend"><i class="fas fa-minus"></i> Stable</span>
+                    </div>
+                    <div class="kpi-icon" style="color: var(--primary); background: #E8F5E9;"><i class="fas fa-file-contract"></i></div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-data">
+                        <h3>12</h3>
+                        <p>Active Deliveries</p>
+                        <span class="trend up" style="color: var(--accent-blue);"><i class="fas fa-truck"></i> 3 Arriving today</span>
+                    </div>
+                    <div class="kpi-icon" style="color: var(--accent-blue); background: #E1F5FE;"><i class="fas fa-route"></i></div>
+                </div>
+            </section>
+
+            <section>
+                <div class="section-header">
+                    <h2>Contract Marketplace</h2>
+                    <div class="filters">
+                        <select class="filter-select"><option>All Crops</option><option>Wheat</option><option>Corn</option></select>
+                        <select class="filter-select"><option>All Regions</option><option>North Valley</option><option>East Coast</option></select>
+                        <select class="filter-select"><option>Price: Low to High</option></select>
+                    </div>
+                </div>
+
+                <div class="data-table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th>Farmer</th>
+                                <th>Quantity</th>
+                                <th>Price / Unit</th>
+                                <th>Harvest Date</th>
+                                <th>Quality Score</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 600; color: var(--primary-dark);">Premium Wheat</td>
+                                <td>
+                                    <div class="farmer-profile">
+                                        <div class="farmer-img"></div> <span>Ravi Kumar</span>
+                                    </div>
+                                </td>
+                                <td>50 Tons</td>
+                                <td>$420</td>
+                                <td>Oct 15, 2024</td>
+                                <td><span style="color: #16A34A; font-weight:600;">A+ (98%)</span></td>
+                                <td style="text-align: right;">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-accept">Accept</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; color: var(--primary-dark);">Yellow Maize</td>
+                                <td>
+                                    <div class="farmer-profile">
+                                        <div class="farmer-img" style="background: #bbb;"></div> <span>Sarah Jenkins</span>
+                                    </div>
+                                </td>
+                                <td>120 Tons</td>
+                                <td>$210</td>
+                                <td>Sep 30, 2024</td>
+                                <td><span style="color: #16A34A; font-weight:600;">A (92%)</span></td>
+                                <td style="text-align: right;">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-accept">Accept</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; color: var(--primary-dark);">Soybeans</td>
+                                <td>
+                                    <div class="farmer-profile">
+                                        <div class="farmer-img" style="background: #999;"></div> <span>Amit Singh</span>
+                                    </div>
+                                </td>
+                                <td>30 Tons</td>
+                                <td>$550</td>
+                                <td>Nov 01, 2024</td>
+                                <td><span style="color: #D97706; font-weight:600;">B+ (88%)</span></td>
+                                <td style="text-align: right;">
+                                    <button class="btn-action btn-view">View</button>
+                                    <button class="btn-action btn-accept">Accept</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <div class="section-header">
+                    <h2>Live Logistics Tracking</h2>
+                </div>
+                <div class="logistics-grid">
+                    <div class="logistics-card">
+                        <div class="delivery-item">
+                            <div class="map-placeholder"><i class="fas fa-map-marked-alt"></i></div>
+                            <div class="delivery-info">
+                                <div class="delivery-meta">
+                                    <span>Contract #8821 - Wheat</span>
+                                    <span style="color: var(--accent-blue);">In Transit</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">From: Punjab Farms &rarr; To: Central Warehouse A</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <p style="font-size: 0.8rem; text-align: right;">ETA: 4 Hours</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logistics-card">
+                        <div class="delivery-item">
+                            <div class="map-placeholder"><i class="fas fa-map-marked-alt"></i></div>
+                            <div class="delivery-info">
+                                <div class="delivery-meta">
+                                    <span>Contract #9102 - Tomatoes</span>
+                                    <span style="color: #D97706;">Quality Check</span>
+                                </div>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Location: Processing Center Gate 2</p>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%; background-color: #D97706;"></div>
+                                </div>
+                                <p style="font-size: 0.8rem; text-align: right;">Status: Verifying Grade</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

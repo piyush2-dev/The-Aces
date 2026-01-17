@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | FarmoTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary: #2E7D32;
+            --primary-hover: #1B5E20;
+            --earth: #5D4037;
+            --bg-color: #F3F4F6;
+            --white: #ffffff;
+            --gray: #9CA3AF;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e7d32' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            text-align: center;
+            padding: 2rem 2rem 1rem 2rem;
+        }
+
+        .logo {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .subtitle { color: #6B7280; font-size: 0.95rem; }
+
+        /* --- TABS --- */
+        .role-tabs {
+            display: flex;
+            background: #F9FAFB;
+            padding: 5px;
+            margin: 0 2rem 1.5rem 2rem;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6B7280;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .tab-btn.active {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* --- FORM --- */
+        .login-form { padding: 0 2rem 2rem 2rem; }
+
+        .input-group { margin-bottom: 1.25rem; position: relative; }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .input-field-wrapper { position: relative; }
+
+        .input-field-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9CA3AF;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 12px 12px 40px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            outline: none;
+        }
+
+        .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1); }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .actions a { color: var(--primary); text-decoration: none; font-weight: 500; }
+        .actions a:hover { text-decoration: underline; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-submit:hover { background: var(--primary-hover); }
+
+        .btn-register {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--earth);
+            border: 2px solid var(--earth);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+
+        .btn-register:hover { background: #FAF7F5; }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #9CA3AF;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .back-home:hover { color: var(--primary); }
+
+        /* Dynamic Styling based on role */
+        .tab-btn[data-role="farmer"].active { color: var(--primary); }
+        .tab-btn[data-role="buyer"].active { color: #0288D1; } /* Blue for buyer distinction */
+        .tab-btn[data-role="admin"].active { color: #D32F2F; } /* Red for admin */
+
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">
+                <i class="fas fa-leaf"></i> FarmoTech
+            </div>
+            <p class="subtitle">Secure Digital Contract Platform</p>
+        </div>
+
+        <div class="role-tabs">
+            <button class="tab-btn active" onclick="switchRole('farmer')" data-role="farmer">Farmer</button>
+            <button class="tab-btn" onclick="switchRole('buyer')" data-role="buyer">Buyer</button>
+            <button class="tab-btn" onclick="switchRole('admin')" data-role="admin">Admin</button>
+        </div>
+
+        <form class="login-form" action="#">
+            <div class="input-group">
+                <label for="email">Email Address</label>
+                <div class="input-field-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Password</label>
+                <div class="input-field-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <div class="actions">
+                <label style="display: flex; align-items: center; gap: 5px; color: #6B7280;">
+                    <input type="checkbox"> Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-submit" id="loginBtn">Login as Farmer</button>
+            <button type="button" class="btn-register">Create New Account</button>
+            
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        </form>
+    </div>
+
+    <script>
+        // Simple script to handle tab switching
+        function switchRole(role) {
+            // Update Tab UI
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.tab-btn[data-role="${role}"]`).classList.add('active');
+            
+            // Update Button Text & Styles
+            const btn = document.getElementById('loginBtn');
+            const roleName = role.charAt(0).toUpperCase() + role.slice(1);
+            btn.innerText = `Login as ${roleName}`;
+
+            // Optional: Change button color based on role
+            if(role === 'farmer') {
+                btn.style.background = '#2E7D32'; // Green
+            } else if (role === 'buyer') {
+                btn.style.background = '#0288D1'; // Blue
+            } else {
+                btn.style.background = '#D32F2F'; // Red
+            }
+        }
+        
+        // Check URL params to auto-select tab
+        const urlParams = new URLSearchParams(window.location.search);
+        const roleParam = urlParams.get('role');
+        if(roleParam && ['farmer', 'buyer', 'admin'].includes(roleParam)) {
+            switchRole(roleParam);
+        }
+    </script>
+</body>
+</html>

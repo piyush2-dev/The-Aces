@@ -1,0 +1,302 @@
+/* =========================================
+   1. VARIABLES & THEME SETUP
+   ========================================= */
+:root {
+    /* --- Brand Colors --- */
+    --color-primary: #2E7D32;        /* Deep Forest Green - Trust & Growth */
+    --color-primary-hover: #1B5E20;  /* Darker Green for interactions */
+    --color-secondary: #A5D6A7;      /* Soft Green - Highlights/Accents */
+    --color-secondary-fg: #143e18;   /* Dark text for light green backgrounds */
+    
+    /* --- Functional Colors --- */
+    --color-earth: #5D4037;          /* Brown - Grounding elements */
+    --color-success: #16A34A;        /* Green - Verified/Active */
+    --color-warning: #D97706;        /* Orange - Pending/Alert */
+    --color-danger: #DC2626;         /* Red - Error/Reject */
+    --color-info: #0288D1;           /* Blue - Links/Info */
+
+    /* --- Neutrals --- */
+    --color-bg-body: #F9FAFB;        /* Very light gray for eye comfort */
+    --color-bg-surface: #FFFFFF;     /* White cards */
+    --color-text-main: #1F2937;      /* Almost Black - High readability */
+    --color-text-muted: #6B7280;     /* Gray - Subtext */
+    --color-border: #E5E7EB;         /* Subtle borders */
+
+    /* --- Typography --- */
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* --- Spacing & Layout --- */
+    --container-width: 1200px;
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    
+    /* --- UI Components --- */
+    --radius-sm: 6px;
+    --radius-md: 12px;               /* Standard Card Radius */
+    --radius-full: 9999px;           /* Pills/Buttons */
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+    /* --- Transitions --- */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================
+   2. RESET & BASE STYLES
+   ========================================= */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-body);
+    color: var(--color-text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================
+   3. TYPOGRAPHY
+   ========================================= */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    color: var(--color-primary); /* Brand alignment */
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: var(--spacing-sm);
+}
+
+h1 { font-size: 2.5rem; letter-spacing: -0.02em; }
+h2 { font-size: 2rem; color: var(--color-earth); } /* Earthy headers for sections */
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+
+p {
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-primary-hover);
+}
+
+/* =========================================
+   4. LAYOUT & GRID
+   ========================================= */
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+}
+
+.grid {
+    display: grid;
+    gap: var(--spacing-md);
+}
+
+/* Responsive Grid Helpers */
+.grid-2 { grid-template-columns: 1fr; }
+.grid-3 { grid-template-columns: 1fr; }
+.grid-4 { grid-template-columns: 1fr; }
+
+@media (min-width: 768px) {
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* =========================================
+   5. COMPONENT: BUTTONS
+   ========================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: 2px solid transparent;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Primary: Deep Green */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* Secondary: Light Green (High Contrast Text) */
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-secondary-fg);
+    border-color: var(--color-secondary);
+}
+
+.btn-secondary:hover {
+    background-color: #81c784;
+    transform: translateY(-2px);
+}
+
+/* Outline: Transparent with Border */
+.btn-outline {
+    background-color: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+/* Button Sizes */
+.btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+.btn-lg { padding: 1rem 2rem; font-size: 1.125rem; }
+
+/* =========================================
+   6. COMPONENT: CARDS
+   ========================================= */
+.card {
+    background-color: var(--color-bg-surface);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover effect for interactive cards */
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-bg-body);
+}
+
+/* =========================================
+   7. COMPONENT: FORMS & INPUTS
+   ========================================= */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+    font-size: 0.9rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: var(--color-bg-surface);
+    transition: var(--transition-fast);
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+/* =========================================
+   8. COMPONENT: BADGES & ALERTS
+   ========================================= */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-success { background: #E8F5E9; color: var(--color-success); }
+.badge-warning { background: #FFF3E0; color: var(--color-warning); }
+.badge-danger  { background: #FEE2E2; color: var(--color-danger); }
+.badge-neutral { background: #F3F4F6; color: var(--color-text-muted); }
+
+/* =========================================
+   9. UTILITIES & ANIMATIONS
+   ========================================= */
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+.d-flex      { display: flex; }
+.items-center{ align-items: center; }
+.justify-between { justify-content: space-between; }
+.w-full      { width: 100%; }
+
+/* Spacing Utils */
+.mt-1 { margin-top: var(--spacing-sm); }
+.mt-2 { margin-top: var(--spacing-md); }
+.mb-1 { margin-bottom: var(--spacing-sm); }
+.mb-2 { margin-bottom: var(--spacing-md); }
+
+/* Visibility */
+.hidden-mobile { display: none; }
+@media (min-width: 768px) {
+    .hidden-mobile { display: block; }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}

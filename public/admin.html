@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | FarmoTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --brand-green: #2E7D32;
+            --bg-body: #F3F4F6;
+            --bg-sidebar: #111827;     /* Dark Navy/Black */
+            --bg-surface: #FFFFFF;
+            --border: #E5E7EB;
+            --text-main: #1F2937;
+            --text-muted: #6B7280;
+            
+            --success: #10B981;
+            --danger: #EF4444;
+            --warning: #F59E0B;
+            
+            --sidebar-width: 250px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            color: #D1D5DB;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .brand {
+            padding: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--brand-green);
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand span { color: white; }
+
+        .nav {
+            flex: 1;
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            color: #9CA3AF;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(255,255,255,0.08);
+            color: white;
+        }
+        
+        .nav-link.active { border-left: 3px solid var(--brand-green); }
+
+        .nav-section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #4B5563;
+            margin: 1.5rem 0 0.5rem 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        /* Topbar */
+        .topbar {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .page-title { font-size: 1.25rem; font-weight: 600; }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .admin-avatar {
+            width: 35px; 
+            height: 35px; 
+            background: #E5E7EB; 
+            border-radius: 50%;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        /* Dashboard Content */
+        .content { padding: 2rem; }
+
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        .card-info h4 { font-size: 0.85rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; }
+        .card-info .number { font-size: 1.75rem; font-weight: 700; margin-top: 5px; }
+        .card-icon {
+            padding: 12px;
+            border-radius: 8px;
+            background: #F3F4F6;
+            color: var(--text-muted);
+        }
+        
+        .alert-dot { width: 10px; height: 10px; background: var(--danger); border-radius: 50%; display: inline-block; margin-left: 5px; }
+
+        /* Tables */
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .table-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-header h3 { font-size: 1rem; font-weight: 600; }
+
+        .table-responsive { overflow-x: auto; }
+        
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; }
+        
+        th {
+            background: #F9FAFB;
+            text-align: left;
+            padding: 12px 24px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 16px 24px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        tr:last-child td { border-bottom: none; }
+
+        /* Badges */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-pending { background: #FFF7ED; color: var(--warning); border: 1px solid #FFEDD5; }
+        .badge-blue { background: #EFF6FF; color: #3B82F6; border: 1px solid #DBEAFE; }
+
+        /* Action Buttons */
+        .action-btns { display: flex; gap: 8px; }
+        
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+        
+        .btn-approve { background: #ECFDF5; color: var(--success); border: 1px solid #A7F3D0; }
+        .btn-approve:hover { background: var(--success); color: white; }
+        
+        .btn-reject { background: #FEF2F2; color: var(--danger); border: 1px solid #FECACA; }
+        .btn-reject:hover { background: var(--danger); color: white; }
+
+        /* Responsive Layout for large screens */
+        @media(min-width: 1280px) {
+            .section-grid { grid-template-columns: repeat(2, 1fr); }
+            .full-width { grid-column: span 2; }
+        }
+
+        @media(max-width: 768px) {
+            .sidebar { display: none; } 
+            /* Note: In a real app, we'd add the toggle logic here similar to previous files */
+            .main { margin-left: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="fas fa-shield-alt"></i> <span>FarmoTech Admin</span>
+        </div>
+        <nav class="nav">
+            <a href="#" class="nav-link active"><i class="fas fa-th-large" style="width:20px;"></i> Overview</a>
+            
+            <div class="nav-section-label">Management</div>
+            <a href="#" class="nav-link"><i class="fas fa-users" style="width:20px;"></i> User Users</a>
+            <a href="#" class="nav-link"><i class="fas fa-file-contract" style="width:20px;"></i> Contracts</a>
+            <a href="#" class="nav-link"><i class="fas fa-check-double" style="width:20px;"></i> Quality Control</a>
+            
+            <div class="nav-section-label">System</div>
+            <a href="#" class="nav-link"><i class="fas fa-cog" style="width:20px;"></i> Settings</a>
+            <a href="#" class="nav-link"><i class="fas fa-sign-out-alt" style="width:20px;"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div class="page-title">Dashboard Overview</div>
+            <div class="admin-profile">
+                <span style="font-size: 0.9rem; font-weight: 500;">Admin User</span>
+                <div class="admin-avatar"><i class="fas fa-user"></i></div>
+            </div>
+        </header>
+
+        <div class="content">
+            
+            <div class="stats-row">
+                <div class="card">
+                    <div class="card-info">
+                        <h4>Total Users</h4>
+                        <div class="number">2,845</div>
+                        <span style="font-size: 0.8rem; color: var(--success);">+12% this month</span>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-users"></i></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-info">
+                        <h4>Active Contracts</h4>
+                        <div class="number">142</div>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">$1.2M Value</span>
+                    </div>
+                    <div class="card-icon"><i class="fas fa-file-signature"></i></div>
+                </div>
+
+                <div class="card" style="border-left: 4px solid var(--danger);">
+                    <div class="card-info">
+                        <h4>Pending Actions</h4>
+                        <div class="number">18 <span class="alert-dot"></span></div>
+                        <span style="font-size: 0.8rem; color: var(--danger);">Requires immediate attention</span>
+                    </div>
+                    <div class="card-icon" style="color: var(--danger); background: #FEF2F2;"><i class="fas fa-exclamation-circle"></i></div>
+                </div>
+            </div>
+
+            <div class="section-grid">
+                
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3><i class="fas fa-user-shield" style="color: var(--text-muted); margin-right: 8px;"></i> User Verification Requests</h3>
+                        <span class="badge badge-pending">5 Pending</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Role</th>
+                                    <th>Document</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">Rahul Singh</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">rahul.s@email.com</div>
+                                    </td>
+                                    <td>Farmer</td>
+                                    <td><a href="#" style="color: #3B82F6; text-decoration: underline;">Land_Deed.pdf</a></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve" title="Approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject" title="Reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">AgroCorp Intl</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">procurement@agro.com</div>
+                                    </td>
+                                    <td>Buyer</td>
+                                    <td><a href="#" style="color: #3B82F6; text-decoration: underline;">Tax_Reg.pdf</a></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <h3><i class="fas fa-file-contract" style="color: var(--text-muted); margin-right: 8px;"></i> Contract Approvals</h3>
+                        <span class="badge badge-pending">3 Pending</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Contract ID</th>
+                                    <th>Value</th>
+                                    <th>Terms</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">#CTR-2024-88</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">Wheat (100 Tons)</div>
+                                    </td>
+                                    <td>$42,000</td>
+                                    <td><span class="badge badge-blue">Escrow Funded</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="font-weight: 600;">#CTR-2024-91</div>
+                                        <div style="font-size: 0.8rem; color: var(--text-muted);">Soybean (20 Tons)</div>
+                                    </td>
+                                    <td>$12,500</td>
+                                    <td><span class="badge badge-pending">Review Terms</span></td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="table-card full-width">
+                    <div class="table-header">
+                        <h3><i class="fas fa-microscope" style="color: var(--text-muted); margin-right: 8px;"></i> Quality Control Results</h3>
+                        <span class="badge badge-pending">10 Pending Review</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Batch ID</th>
+                                    <th>Farmer</th>
+                                    <th>Lab Partner</th>
+                                    <th>Quality Score</th>
+                                    <th>AI Confidence</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>BATCH-001</td>
+                                    <td>Ravi Kumar</td>
+                                    <td>SGS Labs</td>
+                                    <td><span style="color: var(--success); font-weight: 700;">Grade A</span></td>
+                                    <td>98%</td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>BATCH-004</td>
+                                    <td>Sunita Devi</td>
+                                    <td>Intertek</td>
+                                    <td><span style="color: var(--warning); font-weight: 700;">Grade B</span></td>
+                                    <td>85%</td>
+                                    <td>
+                                        <div class="action-btns">
+                                            <button class="btn-icon btn-approve"><i class="fas fa-check"></i></button>
+                                            <button class="btn-icon btn-reject"><i class="fas fa-times"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

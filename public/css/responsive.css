@@ -1,0 +1,207 @@
+/* =========================================
+   1. GLOBAL RESPONSIVE SCALING
+   ========================================= */
+/* Adjust root font size for smaller devices to scale down rem units slightly */
+@media (max-width: 600px) {
+    html {
+        font-size: 90%; /* 1rem = ~14.4px */
+    }
+}
+
+/* =========================================
+   2. TABLET BREAKPOINT (≤ 1024px)
+   ========================================= */
+@media (max-width: 1024px) {
+    
+    /* --- Layout & Sidebar --- */
+    /* Hide Sidebar by default, waiting for JS toggle */
+    .sidebar {
+        transform: translateX(-100%);
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+
+    /* When JS adds '.show', slide it back in */
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    /* Main Content expands to full width */
+    .main-content, 
+    .main-wrapper {
+        margin-left: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Show the hamburger menu in the header */
+    .header-toggle {
+        display: block !important;
+    }
+
+    /* --- Grids --- */
+    /* Reduce dashboard stats to 2 columns */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Reduce feature lists to 2 columns */
+    .grid-4, .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =========================================
+   3. MOBILE BREAKPOINT (≤ 600px)
+   ========================================= */
+@media (max-width: 600px) {
+
+    /* --- Typography --- */
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    h3 { font-size: 1.25rem; }
+    
+    /* Improve readability height */
+    p {
+        line-height: 1.6;
+        font-size: 1rem;
+    }
+
+    /* --- Layout --- */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .section {
+        padding: 2.5rem 0; /* Reduce vertical padding */
+    }
+
+    /* Flatten all grids to single column */
+    .grid-4, .grid-3, .grid-2, .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Flex containers stack vertically */
+    .d-flex, 
+    .header-actions, 
+    .dashboard-header {
+        flex-wrap: wrap;
+    }
+    
+    /* Justify space for header items */
+    .dash-header {
+        padding: 0 1rem;
+        height: auto;
+        min-height: 70px;
+    }
+
+    /* --- Data Tables (Critical) --- */
+    /* Force horizontal scroll */
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        border: 1px solid var(--color-border);
+    }
+
+    /* Visual Scroll Hint */
+    .table-responsive::-webkit-scrollbar {
+        height: 4px;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+        background: var(--color-text-muted);
+        border-radius: 4px;
+    }
+
+    /* --- Forms & Buttons --- */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    /* Make buttons full width for easier thumb reach */
+    .btn, 
+    .btn-auth {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 0.5rem; /* Space if stacked */
+    }
+    
+    /* Exceptions for small action buttons inside tables */
+    .action-btn {
+        width: auto;
+        margin-bottom: 0;
+    }
+
+    /* Input text size check (prevent iOS zoom on focus) */
+    input, select, textarea {
+        font-size: 16px !important; 
+    }
+
+    /* --- Modals --- */
+    .modal {
+        width: 95%;
+        margin: 10px;
+        max-height: 85vh; /* Ensure header/footer visible */
+    }
+    
+    .modal-footer {
+        flex-direction: column-reverse; /* Put primary action at top or easy reach */
+        gap: 0.5rem;
+    }
+
+    /* --- Auth Pages --- */
+    .auth-card {
+        padding: 1.5rem;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+    }
+    
+    .auth-wrapper {
+        align-items: flex-start;
+        padding-top: 2rem;
+    }
+}
+
+/* =========================================
+   4. UTILITY: TABLET CARDS (Optional)
+   ========================================= */
+/* If tables are too complex for scrolling, 
+   transform them into cards on mobile.
+   Usage: Add class "mobile-table-card" to the <table>
+*/
+@media (max-width: 600px) {
+    .mobile-table-card thead {
+        display: none; /* Hide headers */
+    }
+
+    .mobile-table-card tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        background: white;
+        padding: 1rem;
+    }
+
+    .mobile-table-card td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f1f1f1;
+        padding: 0.5rem 0;
+        text-align: right;
+    }
+
+    .mobile-table-card td::before {
+        content: attr(data-label); /* Requires HTML: <td data-label="Price">... */
+        font-weight: 700;
+        text-align: left;
+        margin-right: 1rem;
+        color: var(--color-text-muted);
+    }
+    
+    .mobile-table-card td:last-child {
+        border-bottom: none;
+    }
+}

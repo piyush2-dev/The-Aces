@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard | FarmoTech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- CSS VARIABLES --- */
+        :root {
+            --primary: #2E7D32;       /* Forest Green */
+            --primary-dark: #1B5E20;
+            --earth: #5D4037;         /* Earthy Brown */
+            --bg-light: #F3F4F6;      /* Light Gray-Green */
+            --white: #ffffff;
+            --success: #16A34A;
+            --warning: #D97706;
+            --text-dark: #1F2937;
+            --text-gray: #6B7280;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-dark);
+            color: var(--white);
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 3rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-item a:hover, .nav-item a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .user-mini-profile {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--earth);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-text h1 { font-size: 1.8rem; color: var(--text-dark); }
+        .welcome-text p { color: var(--text-gray); }
+
+        .btn-create {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(46, 125, 50, 0.2);
+            transition: 0.2s;
+        }
+        .btn-create:hover { background-color: #1b5e20; transform: translateY(-2px); }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-info h3 { font-size: 2rem; font-weight: 700; margin-bottom: 5px; color: var(--text-dark); }
+        .stat-info p { color: var(--text-gray); font-size: 0.9rem; }
+        
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: #E8F5E9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .card-pending { border-left-color: var(--warning); }
+        .card-pending .stat-icon { color: var(--warning); background: #FFF3E0; }
+
+        /* Chart Section (CSS Only Bar Chart) */
+        .chart-section {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .chart-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
+        
+        .simple-bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 150px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .bar-group { text-align: center; flex: 1; }
+        .bar {
+            background: var(--primary);
+            width: 40px;
+            margin: 0 auto;
+            border-radius: 4px 4px 0 0;
+            opacity: 0.8;
+            transition: height 1s;
+            position: relative;
+        }
+        .bar:hover { opacity: 1; }
+        .bar-label { font-size: 0.8rem; color: var(--text-gray); margin-top: 10px; }
+
+        /* Contracts Table */
+        .table-container {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+
+        .section-title { margin-bottom: 1.5rem; font-size: 1.25rem; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px; /* Prevent crunching on mobile */
+        }
+
+        th { text-align: left; padding: 1rem; color: var(--text-gray); font-weight: 500; font-size: 0.9rem; border-bottom: 1px solid #eee; }
+        td { padding: 1rem; color: var(--text-dark); border-bottom: 1px solid #f9f9f9; }
+        
+        tr:last-child td { border-bottom: none; }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-active { background: #E8F5E9; color: var(--success); }
+        .status-pending { background: #FFF3E0; color: var(--warning); }
+        .status-completed { background: #F3F4F6; color: var(--text-gray); }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); width: 260px; }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .menu-toggle { display: block; }
+            .dashboard-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .btn-create { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fas fa-leaf"></i> FarmoTech
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="#" class="active"><i class="fas fa-th-large"></i> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fas fa-file-contract"></i> Contracts</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fas fa-seedling"></i> Crop Updates</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fas fa-wallet"></i> Payments</a>
+            </li>
+            <li class="nav-item">
+                <a href="#"><i class="fas fa-user"></i> Profile</a>
+            </li>
+        </ul>
+        <div class="user-mini-profile">
+            <div class="avatar">RP</div>
+            <div>
+                <p style="font-size: 0.9rem; font-weight: 600;">Rajesh Patel</p>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Verified Farmer</p>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div style="margin-bottom: 20px;" class="mobile-only">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <header class="dashboard-header">
+            <div class="welcome-text">
+                <h1>Welcome back, Rajesh! 👋</h1>
+                <p>Here is your farm's overview for today.</p>
+            </div>
+            <a href="#" class="btn-create">
+                <i class="fas fa-plus"></i> Create New Contract
+            </a>
+        </header>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>3</h3>
+                    <p>Active Contracts</p>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-file-signature"></i>
+                </div>
+            </div>
+
+            <div class="stat-card card-pending">
+                <div class="stat-info">
+                    <h3>$4,500</h3>
+                    <p>Pending Payments</p>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-info">
+                    <h3>Healthy</h3>
+                    <p>Current Crop Status</p>
+                </div>
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-section">
+            <div class="chart-header">
+                <h3>Monthly Income (Projected)</h3>
+                <span style="font-size: 0.9rem; color: #6B7280;">USD ($)</span>
+            </div>
+            <div class="simple-bar-chart">
+                <div class="bar-group">
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar-label">Jan</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar-label">Feb</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar-label">Mar</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" style="height: 80%; background-color: var(--earth);"></div>
+                    <div class="bar-label">Apr</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar" style="height: 50%;"></div>
+                    <div class="bar-label">May</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="table-container">
+            <h3 class="section-title">Recent Contracts</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Crop</th>
+                        <th>Quantity</th>
+                        <th>Price/Unit</th>
+                        <th>Buyer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-weight: 600;"><i class="fas fa-wheat" style="color: #E6B325; margin-right: 8px;"></i> Organic Wheat</td>
+                        <td>5 Tons</td>
+                        <td>$420/ton</td>
+                        <td>WholeFoods Corp</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;"><i class="fas fa-carrot" style="color: #FF7043; margin-right: 8px;"></i> Carrots</td>
+                        <td>2 Tons</td>
+                        <td>$150/ton</td>
+                        <td>Fresh Markets</td>
+                        <td><span class="status-badge status-pending">Pending Payment</span></td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: 600;"><i class="fas fa-corn" style="color: #FDD835; margin-right: 8px;"></i> Maize</td>
+                        <td>10 Tons</td>
+                        <td>$300/ton</td>
+                        <td>AgriProcess Ltd</td>
+                        <td><span class="status-badge status-completed">Completed</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.querySelector('.menu-toggle');
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !toggle.contains(event.target) &&
+                sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

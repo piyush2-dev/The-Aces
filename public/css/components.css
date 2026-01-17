@@ -1,0 +1,349 @@
+/* =========================================
+   1. BUTTONS
+   ========================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-body, sans-serif);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    border-radius: 50px; /* Pill shape for modern feel */
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Variants */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 4px 6px rgba(46, 125, 50, 0.15);
+}
+.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 8px rgba(46, 125, 50, 0.25);
+}
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: var(--color-secondary-fg);
+    border-color: transparent;
+}
+.btn-secondary:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+.btn-outline:hover {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--color-danger);
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #b91c1c;
+}
+
+/* Sizes */
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+}
+
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   2. BADGES (Status Indicators)
+   ========================================= */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25em 0.75em;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+/* Dot indicator inside badge (optional usage: <span class="badge"><i class="dot"></i> Text</span>) */
+.badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    margin-right: 6px;
+    opacity: 0.7;
+}
+
+/* Variants */
+.badge-success {
+    background-color: #ECFDF5;
+    color: #047857;
+    border: 1px solid #A7F3D0;
+}
+
+.badge-warning {
+    background-color: #FFFBEB;
+    color: #B45309;
+    border: 1px solid #FDE68A;
+}
+
+.badge-error {
+    background-color: #FEF2F2;
+    color: #B91C1C;
+    border: 1px solid #FECACA;
+}
+
+.badge-info {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+}
+
+.badge-neutral {
+    background-color: #F3F4F6;
+    color: #4B5563;
+    border: 1px solid #E5E7EB;
+}
+
+/* =========================================
+   3. ALERTS (Feedback Messages)
+   ========================================= */
+.alert {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid transparent;
+    font-size: 0.95rem;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.alert-icon {
+    flex-shrink: 0;
+    margin-right: 12px;
+    font-size: 1.25rem;
+    margin-top: -2px; /* Visual alignment fix */
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* Variants */
+.alert-info {
+    background-color: #EFF6FF;
+    border-left-color: #3B82F6;
+    color: #1E3A8A;
+}
+.alert-info .alert-icon { color: #3B82F6; }
+
+.alert-success {
+    background-color: #F0FDF4;
+    border-left-color: #10B981;
+    color: #064E3B;
+}
+.alert-success .alert-icon { color: #10B981; }
+
+.alert-warning {
+    background-color: #FFFBEB;
+    border-left-color: #F59E0B;
+    color: #78350F;
+}
+.alert-warning .alert-icon { color: #F59E0B; }
+
+.alert-error {
+    background-color: #FEF2F2;
+    border-left-color: #EF4444;
+    color: #7F1D1D;
+}
+.alert-error .alert-icon { color: #EF4444; }
+
+/* =========================================
+   4. MODALS
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin: 0;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #6B7280;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #111827;
+    background-color: #F3F4F6;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    color: #374151;
+}
+
+.modal-footer {
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    background-color: #F9FAFB;
+    border-radius: 0 0 12px 12px;
+}
+
+/* =========================================
+   5. TOOLTIPS
+   ========================================= */
+/* Usage: <span data-tooltip="Helper text here" class="tooltip-container">Hover Me</span> */
+
+.tooltip-container {
+    position: relative;
+    cursor: help;
+    border-bottom: 1px dotted var(--color-text-muted);
+}
+
+.tooltip-container::before,
+.tooltip-container::after {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 100;
+    pointer-events: none;
+    left: 50%;
+    transform: translate(-50%, 10px); /* Start slightly lower */
+}
+
+/* The Bubble */
+.tooltip-container::after {
+    content: attr(data-tooltip);
+    background-color: #1F2937;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    width: max-content;
+    max-width: 200px;
+    text-align: center;
+    bottom: 100%;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* The Triangle arrow */
+.tooltip-container::before {
+    content: '';
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1F2937 transparent transparent transparent;
+    bottom: 100%;
+    margin-bottom: -2px; /* Overlap slightly */
+}
+
+/* Hover State */
+.tooltip-container:hover::before,
+.tooltip-container:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+}
