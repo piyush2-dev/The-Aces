@@ -1,0 +1,16 @@
+year,crop,region,avg_quality_score,moisture_percent,grain_size,foreign_matter_percent,protein_content,quality_grade,rejection_rate,acceptance_rate
+2021,Wheat,Maharashtra,72,12.5,Medium,2.5,10.2,B,18,82
+2021,Rice,Maharashtra,75,13.0,Medium,2.0,8.5,B,15,85
+2021,Maize,Maharashtra,70,14.0,Small,3.0,9.0,C,22,78
+2022,Wheat,Maharashtra,76,12.0,Medium,2.2,10.8,B,15,85
+2022,Rice,Maharashtra,78,12.8,Medium,1.8,8.9,B,12,88
+2022,Maize,Maharashtra,73,13.5,Medium,2.5,9.5,C,20,80
+2023,Wheat,Maharashtra,82,11.5,Large,1.8,11.5,A,10,90
+2023,Rice,Maharashtra,84,12.0,Large,1.5,9.2,A,8,92
+2023,Maize,Maharashtra,78,13.0,Medium,2.0,10.0,B,15,85
+2024,Wheat,Maharashtra,86,11.2,Large,1.5,12.0,A,6,94
+2024,Rice,Maharashtra,88,11.8,Large,1.2,9.8,A,5,95
+2024,Maize,Maharashtra,82,12.5,Medium,1.8,10.5,B,10,90
+2025,Wheat,Maharashtra,90,11.0,Large,1.2,12.5,A+,3,97
+2025,Rice,Maharashtra,92,11.5,Large,1.0,10.2,A+,2,98
+2025,Maize,Maharashtra,86,12.0,Large,1.5,11.0,A,6,94
