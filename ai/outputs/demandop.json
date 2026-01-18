@@ -1,0 +1,25 @@
+{
+  "model": "demand_forecast_decision_tree_v1",
+  "input": {
+    "crop": "Wheat",
+    "region": "Maharashtra",
+    "season": "Rabi",
+    "year": 2026
+  },
+  "output": {
+    "demand_level": "High",
+    "demand_index": 91,
+    "confidence_score": 0.84
+  },
+  "demand_breakdown": {
+    "domestic_demand": "High",
+    "export_demand": "Very High",
+    "buyer_segments": [
+      "Wholesalers",
+      "Exporters",
+      "Food Processing Units"
+    ]
+  },
+  "market_trend": "Strong Growth",
+  "generated_at": "2026-01-18T10:45:10Z"
+}

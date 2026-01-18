@@ -1,0 +1,21 @@
+{
+  "model": "crop_quality_scoring_hybrid_v1",
+  "input": {
+    "crop": "Wheat",
+    "region": "Maharashtra",
+    "sample_id": "SAMPLE_1029"
+  },
+  "output": {
+    "quality_grade": "A",
+    "quality_score": 88,
+    "confidence_score": 0.90
+  },
+  "quality_metrics": {
+    "moisture_percent": 11.4,
+    "protein_content": 12.1,
+    "foreign_matter_percent": 1.3,
+    "grain_size": "Large"
+  },
+  "acceptance_probability": 0.94,
+  "generated_at": "2026-01-18T10:45:20Z"
+}

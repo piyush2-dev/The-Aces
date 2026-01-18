@@ -1,0 +1,24 @@
+{
+  "model": "price_prediction_linear_regression_v1",
+  "input": {
+    "crop": "Wheat",
+    "season": "Rabi",
+    "region": "Maharashtra",
+    "year": 2026
+  },
+  "output": {
+    "predicted_price_per_quintal": 2385,
+    "price_range": {
+      "min": 2250,
+      "max": 2520
+    },
+    "confidence_score": 0.87
+  },
+  "factors_considered": [
+    "historical_price_trend",
+    "inflation_rate",
+    "price_volatility",
+    "seasonal_pattern"
+  ],
+  "generated_at": "2026-01-18T10:45:00Z"
+}
